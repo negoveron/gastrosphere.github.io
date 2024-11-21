@@ -44,9 +44,9 @@
 						<!-- Intro -->
 							<article id="intro">							
 								<p>
-									<iframe loading="lazy" src="https://app.powerbi.com/view?r=eyJrIjoiMDIxZGRmYTctMzM1Ny00OGFlLWE3ZmEtOWU0ZjdlYjE3YjZjIiwidCI6ImNjODBmOGQ2LTNjMzUtNGRhNC1iMGY4LWNiZWFkYjAwNDY3ZSIsImMiOjEwfQ%3D%3D" 
+									<!-- <iframe loading="lazy" src="https://app.powerbi.com/view?r=eyJrIjoiMDIxZGRmYTctMzM1Ny00OGFlLWE3ZmEtOWU0ZjdlYjE3YjZjIiwidCI6ImNjODBmOGQ2LTNjMzUtNGRhNC1iMGY4LWNiZWFkYjAwNDY3ZSIsImMiOjEwfQ%3D%3D" 
 											width="100%" height="800" frameborder="0" allowfullscreen="allowfullscreen">
-									</iframe>
+									</iframe> -->
 								</p>
 							</article>
 
@@ -67,25 +67,39 @@
 
 						<!-- Contact -->
 							<article id="contact">
-								<h2 class="major">Contact</h2>
+								<h2 class="major">Recomendador de Restaurantes</h2>
+								<p>Seleccione un estado y una categoría, luego ingrese las características que le gustaría encontrar en dichos restaurantes</p>
 								<form action="#" id="doRequest">
 									<div class="fields">
+										<div class="field half">											
+											<label for="estado">Estado</label>
+											<select name="estado" id="estado">
+												<option value="">-</option>
+												<option value="FL">Florida</option>
+												<option value="1">Shipping</option>
+												<option value="1">Administration</option>
+												<option value="1">Human Resources</option>
+											</select>
+										</div>										
 										<div class="field half">
-											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
-										</div>
-										<div class="field half">
-											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
+											<label for="categoria">Categoria</label>
+											<select name="categoria" id="categoria">
+												<option value="">-</option>
+												<option value="Mexican">Mexican</option>
+												<option value="1">Shipping</option>
+												<option value="1">Administration</option>
+												<option value="1">Human Resources</option>
+											</select>
 										</div>
 										<div class="field">
-											<label for="message">Message</label>
+											<label for="message">Carateristicas</label>
+											<blockquote>Característcas sugeridas: great place, good service, delicious food, best salad, lot of food, fresh and healthy, ordered, nice people,awesome, good wine, meat, home made, etc</blockquote>
 											<textarea name="message" id="message" rows="4"></textarea>
 										</div>
 									</div>
 									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="primary" /></li>
-										<li><input type="reset" value="Reset" /></li>
+										<li><input type="submit" value="Consultar" class="primary" /></li>
+										<li><input type="reset" value="Resetear" /></li>
 									</ul>
 								</form>
 								<div id="result"></div>
@@ -360,28 +374,31 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 	
 		<script>
 			// Attach a submit handler to the form
-			$( "#doRequest" ).submit(function( event ) {
-				console.log("entra");
+			$( "#doRequest" ).submit(function( event ) {				
 			
 				// Stop form from submitting normally
 				event.preventDefault();
 			
 				// Get some values from elements on the page:
 				var $form = $( this ),
-				term = $form.find( "input[name='name']" ).val(),
-				url = "https://httpbin.org/post",
-				data = { "test": "1" }
-			
+				estado = $("#estado").val(),
+				categoria = $("#categoria").val(),
+				caracteristicas = $("#message").val(),
+				url = "https://flask-skeleton-375884567332.southamerica-east1.run.app/recomendaciones",
+				data = { "state": estado, "category": categoria, "caracteristicas":caracteristicas };
+							
 				// Send the data using post
 		
 				$.ajax({
 					type: "POST",
-					url: url,
-					data: data,					
+					url: url,					
+					data:        JSON.stringify(data),
+					contentType: "application/json; charset=utf-8",
+					dataType:    "json",					
 					success: function(response){
 						//if request if made successfully then the response represent the data
-						console.log(response.form.test)
-						$( "#result" ).empty().append( response.form.test )
+						console.log(response)
+						$( "#result" ).empty().append( response )
 					}						
 				});
 			});
