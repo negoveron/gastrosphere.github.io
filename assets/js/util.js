@@ -454,7 +454,7 @@
 				})
 				.on('reset', function(event) {
 
-					event.preventDefault();
+					event.preventDefault();					
 
 					$this.find('select')
 						.val($('option:first').val());
